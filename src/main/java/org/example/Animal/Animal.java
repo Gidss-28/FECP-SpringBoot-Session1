@@ -7,8 +7,10 @@ public abstract class Animal {
     private boolean isHealthy ;
     private Building location;
 
-    Animal(String name, boolean isHealthy, Building location ){
-
+    protected Animal(String name, boolean isHealthy, Building location ){
+        this.name = name;
+        this.isHealthy = isHealthy;
+        this.location = location;
     }
 
     public void eat(){
@@ -22,4 +24,5 @@ public abstract class Animal {
     public abstract void roam();
     public abstract void makeSound();
     public abstract String species();
+    public abstract String type();
 }

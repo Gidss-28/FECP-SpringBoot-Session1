@@ -9,4 +9,6 @@ public abstract class Building {
         this.TYPE = type;
     }
 
+    public String type() {return this.TYPE;}
+
 }
