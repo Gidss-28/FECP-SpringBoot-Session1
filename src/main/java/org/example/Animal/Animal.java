@@ -7,6 +7,10 @@ public abstract class Animal {
     private boolean isHealthy ;
     private Building location;
 
+    Animal(String name, boolean isHealthy, Building location ){
+
+    }
+
     public void eat(){
         System.out.print(name + " is eating...");
     }
@@ -17,5 +21,5 @@ public abstract class Animal {
 
     public abstract void roam();
     public abstract void makeSound();
-    public abstract String toString();
+    public abstract String species();
 }

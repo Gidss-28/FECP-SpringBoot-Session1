@@ -1,5 +1,7 @@
 package org.example.Animal.Pachyderm;
 
-public class Pachyderm extends Animal{
+import org.example.Animal.Animal;
+
+public abstract class Pachyderm extends Animal{
 
 }
