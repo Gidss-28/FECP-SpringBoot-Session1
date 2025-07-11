@@ -9,6 +9,5 @@ public class Handler extends Staff{
 
     Handler(String name, Building location) {
         super(name, location);
-        this.assignedEnclosure = Enclosure;
     }
 }
