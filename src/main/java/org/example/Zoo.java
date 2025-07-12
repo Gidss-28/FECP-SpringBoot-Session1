@@ -3,6 +3,8 @@ package org.example;
 public class Zoo {
     private boolean isOpen;
 
+
+
     public boolean isOpen() {
         return isOpen;
     }
