@@ -13,6 +13,30 @@ public abstract class Animal {
         this.location = location;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isHealthy() {
+        return isHealthy;
+    }
+
+    public void setHealthy(boolean healthy) {
+        isHealthy = healthy;
+    }
+
+    public Building getLocation() {
+        return location;
+    }
+
+    public void setLocation(Building location) {
+        this.location = location;
+    }
+
     public void eat(){
         System.out.print(name + " is eating...");
     }
