@@ -1,11 +1,11 @@
 package org.example;
 
 public class Ticket {
-    private String ticketCode;
-    private String visitorName;
-    private int visitorAge;
-    private String ticketType;
-    private double price;
+    private final String ticketCode;
+    private final String visitorName;
+    private final int visitorAge;
+    private final String ticketType;
+    private final double price;
     private boolean isValid;
 
     public Ticket(String visitorName, int visitorAge) {
@@ -23,7 +23,8 @@ public class Ticket {
     }
 
     public void displayTicketInfo(){
-
+        System.out.println("You qualify for a " + ticketType + " .");
+        System.out.println("Ticket Price: ₱" + price);
     }
 
     public String getTicketCode() { return ticketCode; }
