@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class BuildingFactory {
 
-    public static Building createEnclosure (String name, String species, ArrayList<Animal> animals) {
+    public static Enclosure<? extends Animal> createEnclosure (String name, String species, ArrayList<Animal> animals) {
         if(species.equalsIgnoreCase("pachyderm")) {
             ArrayList<Pachyderm> pachyderms = new ArrayList<>();
             for (Animal a: animals){
@@ -37,4 +37,7 @@ public class BuildingFactory {
         }
         else return null;
     }
+
+    public static Hospital createHospital(String name){return new Hospital(name);}
+
 }
