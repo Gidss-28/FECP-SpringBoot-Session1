@@ -24,12 +24,10 @@ public class HandlerModule {
         System.out.print("Enter your name (Handler): ");
         String name = sc.nextLine();
 
-        // Create sample animals for the handler
         ArrayList<Animal> animals = new ArrayList<>();
         animals.add(AnimalFactory.createFeline("Mufasa", true, null, "lion"));
         animals.add(AnimalFactory.createFeline("Simba", true, null, "lion"));
-        
-        // Create enclosure for lions and handler
+
         Enclosure<Feline> lionEnclosure = (Enclosure<Feline>) BuildingFactory.createEnclosure("Lion Enclosure", "feline", animals);
         handler = new Handler<>(lionEnclosure);
         handler.setName(name);
@@ -37,7 +35,6 @@ public class HandlerModule {
         System.out.println("Welcome, Handler " + name + "!");
         System.out.println();
 
-        // Main handler duty loop
         while (true) {
             System.out.println("--- Animal Duty Menu ---");
             System.out.println("Animals assigned to you:");
@@ -68,8 +65,7 @@ public class HandlerModule {
             
             Feline selectedAnimal = assignedAnimals.get(animalChoice - 1);
             System.out.println();
-            
-            // Action menu for selected animal
+
             System.out.println("Choose action:");
             System.out.println("1. Feed " + selectedAnimal.getName());
             System.out.println("2. Exercise " + selectedAnimal.getName());

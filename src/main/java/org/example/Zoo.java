@@ -49,31 +49,24 @@ public class Zoo {
     }
 
     private void initializeZoo() {
-        // Create sample animals
         createSampleAnimals();
-        
-        // Create enclosures
+
         createEnclosures();
-        
-        // Create other buildings
+
         createBuildings();
-        
-        // Create staff
+
         createStaff();
     }
 
     private void createSampleAnimals() {
-        // Create felines
         animals.add(AnimalFactory.createFeline("Mufasa", true, null, "lion"));
         animals.add(AnimalFactory.createFeline("Simba", true, null, "lion"));
         animals.add(AnimalFactory.createFeline("Shere Khan", true, null, "tiger"));
-        
-        // Create pachyderms
+
         animals.add(AnimalFactory.createPachyderm("Dumbo", true, null, "elephant"));
         animals.add(AnimalFactory.createPachyderm("Babar", true, null, "elephant"));
         animals.add(AnimalFactory.createPachyderm("Gloria", true, null, "hippo"));
-        
-        // Create birds
+
         animals.add(AnimalFactory.createBird("Hedwig", true, null, "owl"));
         animals.add(AnimalFactory.createBird("Polly", true, null, "parrot"));
         animals.add(AnimalFactory.createBird("Falco", true, null, "falcon"));
@@ -82,7 +75,6 @@ public class Zoo {
     }
 
     private void createEnclosures() {
-        // Create feline enclosure
         ArrayList<Animal> felines = new ArrayList<>();
         for (Animal animal : animals) {
             if (animal.species().equalsIgnoreCase("feline")) {
@@ -95,7 +87,6 @@ public class Zoo {
             buildings.add(felineEnclosure);
         }
 
-        // Create pachyderm enclosure
         ArrayList<Animal> pachyderms = new ArrayList<>();
         for (Animal animal : animals) {
             if (animal.species().equalsIgnoreCase("pachyderm")) {
@@ -108,7 +99,6 @@ public class Zoo {
             buildings.add(pachydermEnclosure);
         }
 
-        // Create bird enclosure
         ArrayList<Animal> birds = new ArrayList<>();
         for (Animal animal : animals) {
             if (animal.species().equalsIgnoreCase("bird")) {
@@ -123,7 +113,6 @@ public class Zoo {
     }
 
     private void createBuildings() {
-        // Create shops
         Shop giftShop = new Shop("Gift Shop");
         Shop snackBar = new Shop("Snack Bar");
         shops.add(giftShop);
@@ -131,14 +120,12 @@ public class Zoo {
         buildings.add(giftShop);
         buildings.add(snackBar);
 
-        // Create hospital
         Hospital animalHospital = BuildingFactory.createHospital("Animal Hospital");
         hospitals.add(animalHospital);
         buildings.add(animalHospital);
     }
 
     private void createStaff() {
-        // Create handlers for each enclosure
         for (Enclosure<? extends Animal> enclosure : enclosures) {
             if (enclosure.getSpecies().equalsIgnoreCase("feline")) {
                 Handler<Feline> felineHandler = new Handler<>((Enclosure<Feline>) enclosure);
@@ -155,7 +142,6 @@ public class Zoo {
             }
         }
 
-        // Create veterinarians
         if (!hospitals.isEmpty()) {
             Veterinarian vet = new Veterinarian(hospitals.get(0));
             vet.setName("Dr. Smith");
@@ -171,7 +157,6 @@ public class Zoo {
         }
     }
 
-    // Basic Zoo Operations
     public void openZoo() {
         this.isOpen = true;
         System.out.println("🎉 " + name + " is now OPEN!");
@@ -225,13 +210,11 @@ public class Zoo {
         System.out.println("All animals have been fed!");
     }
 
-    // Animal Management
     public void addAnimal(Animal animal) {
         animals.add(animal);
         updateAnimalCounts();
         System.out.println("Added " + animal.getName() + " to the zoo.");
-        
-        // Try to add to appropriate enclosure
+
         for (Enclosure<? extends Animal> enclosure : enclosures) {
             if (enclosure.getSpecies().equalsIgnoreCase(animal.species())) {
                 enclosure.addAnimal(animal);
@@ -250,7 +233,6 @@ public class Zoo {
         return null;
     }
 
-    // Visitor Management
     public void addVisitor(Visitor visitor) {
         visitors.add(visitor);
         System.out.println("Welcome " + visitor.getName() + " to " + name + "!");
@@ -260,7 +242,6 @@ public class Zoo {
         ticketingSystem.startTicketingSystem();
     }
 
-    // Getters and Setters
     public String getName() {
         return name;
     }
