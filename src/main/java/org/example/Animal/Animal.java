@@ -1,16 +1,27 @@
 package org.example.Animal;
 
 import org.example.Building.Building;
+import org.example.Building.Enclosure;
 
 public abstract class Animal {
     private String name;
     private boolean isHealthy ;
     private Building location;
+    private Enclosure<?> enclosure;
 
-    protected Animal(String name, boolean isHealthy, Building location ){
+    protected Animal(String name, boolean isHealthy, Building location, Enclosure<?> enclosure){
         this.name = name;
         this.isHealthy = isHealthy;
         this.location = location;
+        this.enclosure = enclosure;
+    }
+
+    public Enclosure<?> getEnclosure() {
+        return enclosure;
+    }
+
+    public void setEnclosure(Enclosure<?> enclosure) {
+        this.enclosure = enclosure;
     }
 
     public String getName() {

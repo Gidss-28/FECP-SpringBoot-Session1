@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Hospital extends Building{
     private final ArrayList<Animal> animals;
 
-    Hospital(String name){
+    protected Hospital(String name){
         super(name, "hospital");
         this.animals = new ArrayList<>();
     }
