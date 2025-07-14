@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 public class Handler <T extends Animal> extends Person{
     Enclosure<T> assignedEnclosure;
 
-    Handler(Enclosure<T> enclosure){
+    public Handler(Enclosure<T> enclosure){
         this.assignedEnclosure = enclosure;
     }
 
@@ -28,6 +28,10 @@ public class Handler <T extends Animal> extends Person{
         T animal = assignedEnclosure.getAnimal(animalName);
         // TODO: implement transfer of animal to hospital
         System.out.println(animal.getName() + " admitted at " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+    }
+
+    public Enclosure<T> getAssignedEnclosure() {
+        return assignedEnclosure;
     }
 
 }
