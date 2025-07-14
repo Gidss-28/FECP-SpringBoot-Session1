@@ -5,10 +5,12 @@ import java.util.*;
 public class TicketingSystem {
     private final Scanner scanner;
     private final Map<String, Ticket> tickets;
+    private final Zoo zoo;
 
-    public TicketingSystem() {
+    public TicketingSystem(Zoo zoo) {
         this.scanner = new Scanner(System.in);
         this.tickets = new HashMap<>();
+        this.zoo = zoo;
     }
 
     public boolean isValidTicket(String ticketCode) {
@@ -20,9 +22,8 @@ public class TicketingSystem {
         System.out.println("=== 🎫 WELCOME TO THE ZOO TICKET SHOP ===\n");
         System.out.println("Here's what you can experience in the zoo:");
         System.out.println("Visit Animal Enclosures (Elephant, Lion, Owl)");
-        System.out.println("Buy snacks and drinks from our Shops");
+        System.out.println("Buy snacks and gifts from our shop");
         System.out.println("Listen to science lectures at the Hospital");
-        System.out.println("Buy fun gifts at our Gift Shop \n");
 
         displayTicketingMenu();
     }
@@ -67,6 +68,8 @@ public class TicketingSystem {
 
         if (ticket != null && ticket.isValid()) {
             System.out.println("Welcome to the Zoo! Enjoy your visit!");
+            ticket.setValid(false);
+            ZooModule.startVisitorFlow(zoo, ticket);
         } else if (ticket != null && !ticket.isValid()) {
             System.out.println("This ticket has already been used or is invalid.");
         } else {

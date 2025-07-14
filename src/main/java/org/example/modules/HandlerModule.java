@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HandlerModule {
-    private Handler<Feline> handler;
-    private Zoo zoo;
+    private final Zoo zoo;
 
     public HandlerModule(Zoo zoo) {
         this.zoo = zoo;
@@ -24,81 +23,54 @@ public class HandlerModule {
         System.out.print("Enter your name (Handler): ");
         String name = sc.nextLine();
 
-        ArrayList<Animal> animals = new ArrayList<>();
-        animals.add(AnimalFactory.createFeline("Mufasa", true, null, "lion"));
-        animals.add(AnimalFactory.createFeline("Simba", true, null, "lion"));
+        Handler<? extends Animal> assignedHandler = null;
+        for (Handler<? extends Animal> handler : zoo.getHandlers()) {
+            if (handler.getName().equalsIgnoreCase(name)) {
+                assignedHandler = handler;
+                break;
+            }
+        }
 
-        Enclosure<Feline> lionEnclosure = (Enclosure<Feline>) BuildingFactory.createEnclosure("Lion Enclosure", "feline", animals);
-        handler = new Handler<>(lionEnclosure);
-        handler.setName(name);
-        
-        System.out.println("Welcome, Handler " + name + "!");
-        System.out.println();
+        if (assignedHandler == null) {
+            System.out.println("No handler found with that name.");
+            return;
+        }
+
+        System.out.println("Welcome, Handler " + name + "!\n");
 
         while (true) {
             System.out.println("--- Animal Duty Menu ---");
+            var assignedAnimals = assignedHandler.getAssignedEnclosure().getAllAnimals();
+
             System.out.println("Animals assigned to you:");
-            
-            ArrayList<Feline> assignedAnimals = handler.getAssignedEnclosure().getAllAnimals();
             for (int i = 0; i < assignedAnimals.size(); i++) {
                 System.out.println((i + 1) + ". " + assignedAnimals.get(i).getName());
             }
-            
-            System.out.print("Choose animal number to interact with (0 to exit): ");
-            int animalChoice;
-            try {
-                animalChoice = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
-                continue;
-            }
-            
-            if (animalChoice == 0) {
-                System.out.println("Finished duties for the day.");
-                break;
-            }
-            
-            if (animalChoice < 1 || animalChoice > assignedAnimals.size()) {
-                System.out.println("Invalid animal number. Please try again.");
-                continue;
-            }
-            
-            Feline selectedAnimal = assignedAnimals.get(animalChoice - 1);
-            System.out.println();
 
-            System.out.println("Choose action:");
-            System.out.println("1. Feed " + selectedAnimal.getName());
-            System.out.println("2. Exercise " + selectedAnimal.getName());
-            System.out.println("3. Examine " + selectedAnimal.getName() + " to Vet");
-            System.out.print("Choose an option: ");
-            
-            int actionChoice;
-            try {
-                actionChoice = Integer.parseInt(sc.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
+            System.out.print("Choose animal number to interact with (0 to exit): ");
+            int animalChoice = Integer.parseInt(sc.nextLine());
+
+            if (animalChoice == 0) break;
+
+            if (animalChoice < 1 || animalChoice > assignedAnimals.size()) {
+                System.out.println("Invalid number.");
                 continue;
             }
-            
-            System.out.println();
-            
-            switch (actionChoice) {
-                case 1:
-                    handler.feedAnimal(selectedAnimal.getName());
-                    break;
-                case 2:
-                    handler.exerciseAnimal(selectedAnimal.getName());
-                    break;
-                case 3:
-                    System.out.println("Sending to Hospital...");
-                    handler.examineToVet(selectedAnimal.getName());
-                    break;
-                default:
-                    System.out.println("Invalid option. Please try again.");
-                    continue;
+
+            Animal selected = assignedAnimals.get(animalChoice - 1);
+
+            System.out.println("1. Feed");
+            System.out.println("2. Exercise");
+            System.out.println("3. Send to Vet");
+            System.out.print("Choose an action: ");
+            int action = Integer.parseInt(sc.nextLine());
+
+            switch (action) {
+                case 1 -> assignedHandler.feedAnimal(selected.getName());
+                case 2 -> assignedHandler.exerciseAnimal(selected.getName());
+                case 3 -> assignedHandler.examineToVet(selected.getName());
+                default -> System.out.println("Invalid action.");
             }
-            
-            System.out.println();
         }
     }
 }

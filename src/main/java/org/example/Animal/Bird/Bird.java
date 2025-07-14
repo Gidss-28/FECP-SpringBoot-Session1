@@ -5,7 +5,7 @@ import org.example.Building.Building;
 
 public abstract class Bird extends Animal {
     protected Bird (String name, boolean isHealthy, Building location) {
-        super(name, isHealthy, location);
+        super(name, isHealthy, location, null);
     }
     public void roam() {
         System.out.print("flying...");

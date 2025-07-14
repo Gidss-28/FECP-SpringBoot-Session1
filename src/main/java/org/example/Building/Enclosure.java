@@ -9,7 +9,7 @@ public class Enclosure<T extends Animal> extends Building{
     private final ArrayList<T> animals;
 
     Enclosure(String name, String species, ArrayList<T> animals){
-        super(name, "eclosure");
+        super(name, "enclosure");
         this.animals = animals;
         this.species = species;
     }
