@@ -66,8 +66,7 @@ public class Shop extends Building {
             System.out.println("🛒 Checkout cancelled.");
         }
 
-        System.out.print("\nWhat would you like to do next?\nChoose an option: ");
-        scanner.nextLine(); // Wait for input before returning to menu
+        System.out.print("\nWhat would you like to do next?");
     }
 }
 
