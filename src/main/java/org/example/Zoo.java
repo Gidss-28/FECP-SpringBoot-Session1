@@ -9,10 +9,7 @@ import org.example.Building.*;
 import org.example.Person.Staff.Handler;
 import org.example.Person.Staff.Veterinarian;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Zoo {
     private String name;
@@ -43,19 +40,16 @@ public class Zoo {
         this.handlers = new ArrayList<>();
         this.veterinarians = new ArrayList<>();
         this.visitors = new ArrayList<>();
-        this.ticketingSystem = new TicketingSystem();
+        this.ticketingSystem = new TicketingSystem(this);
         this.animalCounts = new HashMap<>();
         initializeZoo();
     }
 
     private void initializeZoo() {
         createSampleAnimals();
-
         createEnclosures();
-
         createBuildings();
-
-        createStaff();
+        randomlyMakeAnimalsSick();
     }
 
     private void createSampleAnimals() {
@@ -72,6 +66,25 @@ public class Zoo {
         animals.add(AnimalFactory.createBird("Falco", true, null, "falcon"));
         
         updateAnimalCounts();
+    }
+
+    private void randomlyMakeAnimalsSick() {
+        Random rand = new Random();
+        for (Animal animal : new ArrayList<>(animals)) {
+            if (rand.nextDouble() < 0.3 && animal.isHealthy()) {
+                animal.setHealthy(false);
+
+                // Remove from enclosure
+                if (animal.getEnclosure() != null) {
+                    animal.getEnclosure().getAllAnimals().remove(animal);
+                }
+
+                // Admit to hospital
+                if (!hospitals.isEmpty()) {
+                    hospitals.get(0).admitAnimal(animal);
+                }
+            }
+        }
     }
 
     private void createEnclosures() {
@@ -125,29 +138,54 @@ public class Zoo {
         buildings.add(animalHospital);
     }
 
-    private void createStaff() {
+    public void createStaff() {
+        handlers.clear();
+        veterinarians.clear();
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("\n--- Zoo Setup ---");
+
+        System.out.print("Enter your name, Manager: ");
+        String managerName = sc.nextLine();
+
+        System.out.print("Enter Veterinarian's name: ");
+        String vetName = sc.nextLine();
+        if (!hospitals.isEmpty()) {
+            Veterinarian vet = new Veterinarian(hospitals.get(0));
+            vet.setName(vetName);
+            veterinarians.add(vet);
+        }
+
         for (Enclosure<? extends Animal> enclosure : enclosures) {
-            if (enclosure.getSpecies().equalsIgnoreCase("feline")) {
-                Handler<Feline> felineHandler = new Handler<>((Enclosure<Feline>) enclosure);
-                felineHandler.setName("John Handler");
-                handlers.add(felineHandler);
-            } else if (enclosure.getSpecies().equalsIgnoreCase("pachyderm")) {
-                Handler<Pachyderm> pachydermHandler = new Handler<>((Enclosure<Pachyderm>) enclosure);
-                pachydermHandler.setName("Jane Handler");
-                handlers.add(pachydermHandler);
-            } else if (enclosure.getSpecies().equalsIgnoreCase("bird")) {
-                Handler<Bird> birdHandler = new Handler<>((Enclosure<Bird>) enclosure);
-                birdHandler.setName("Bob Handler");
-                handlers.add(birdHandler);
+            System.out.print("Enter Handler for " + enclosure.getSpecies() + " Enclosure: ");
+            String handlerName = sc.nextLine();
+
+            switch (enclosure.getSpecies().toLowerCase()) {
+                case "feline" -> {
+                    Handler<Feline> handler = new Handler<>((Enclosure<Feline>) enclosure);
+                    handler.setName(handlerName);
+                    handlers.add(handler);
+                }
+                case "pachyderm" -> {
+                    Handler<Pachyderm> handler = new Handler<>((Enclosure<Pachyderm>) enclosure);
+                    handler.setName(handlerName);
+                    handlers.add(handler);
+                }
+                case "bird" -> {
+                    Handler<Bird> handler = new Handler<>((Enclosure<Bird>) enclosure);
+                    handler.setName(handlerName);
+                    handlers.add(handler);
+                }
             }
         }
 
-        if (!hospitals.isEmpty()) {
-            Veterinarian vet = new Veterinarian(hospitals.get(0));
-            vet.setName("Dr. Smith");
-            veterinarians.add(vet);
+        System.out.println("\nZoo staff setup complete.");
+        System.out.println("Veterinarian: " + veterinarians.get(0).getName());
+        for (Handler<? extends Animal> h : handlers) {
+            System.out.println("Handler for " + h.getAssignedEnclosure().getSpecies() + ": " + h.getName());
         }
     }
+
 
     private void updateAnimalCounts() {
         animalCounts.clear();
